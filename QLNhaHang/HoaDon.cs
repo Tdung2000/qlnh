@@ -9,7 +9,7 @@ namespace QLNhaHang
     class HoaDon
     {
         public string mahd { get; set; }
-        public DateTime ngaylap{ get; set; }
+        public string ngaylap{ get; set; }
         public string manv{ get; set; }
         public string makh{ get; set; }
 
@@ -18,7 +18,7 @@ namespace QLNhaHang
         {
 
         }
-        public HoaDon(string mahd,DateTime ngaylap,string manv,string makh )
+        public HoaDon(string mahd,string ngaylap,string manv,string makh )
         {
             this.mahd = mahd;
             this.ngaylap = ngaylap;
