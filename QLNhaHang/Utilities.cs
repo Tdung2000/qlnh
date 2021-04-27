@@ -14,7 +14,8 @@ namespace QLNhaHang
         SqlConnection con;
         public Utilities()
         {
-           string constr = @"Data Source=DUYHV\SQLEXPRESS;Initial Catalog=QLNhaHang;Integrated Security=True";
+            string constr = @"Data Source=DESKTOP-DHL2NL5\SQLEXPRESS;Initial Catalog=QLNhaHang;Integrated Security=true";
+            //string constr = @"Data Source=DUYHV\SQLEXPRESS;Initial Catalog=QLNhaHang;Integrated Security=True";
             con = new SqlConnection(constr);
         }
         //lay du lieu nhan vien
@@ -51,9 +52,10 @@ namespace QLNhaHang
             con.Open();
             DataTable table = new DataTable();
             
-            string sql = "select mamenu,tenmonan,soluong from chitiethoadon "
-                +"inner join monan on monan.mamonan=chitiethoadon.mamonan " +
-                "where mahoadon='"+mahd+"'";
+             string sql = "select tenmenu,tenmonan,soluong from monan,chitiethoadon,menu " +
+                "where monan.mamonan=chitiethoadon.mamonan " +
+                "and menu.mamenu=monan.mamenu " +
+                "and mahoadon='" + mahd + "'";
             //SqlCommand cmd = new SqlCommand(sql, con);
             //cmd.Parameters.AddWithValue("mahd", mahd);
             SqlDataAdapter adap = new SqlDataAdapter(sql, con);
@@ -154,6 +156,139 @@ namespace QLNhaHang
             SqlCommand cmd = new SqlCommand(sql, con);
             cmd.Parameters.AddWithValue("soghe", s.Soghe);
             cmd.Parameters.AddWithValue("tinhtrang", s.Tinhtrang);
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+         //NHan vien
+        //Lay du lieu nhan vien
+        public DataTable danhsachnhanvien()
+        {
+            con.Open();
+            DataTable table = new DataTable();
+            string sql = "select * from nhanvien";
+            SqlDataAdapter adap = new SqlDataAdapter(sql, con);
+            adap.Fill(table);
+            con.Close();
+            return table;
+        }
+
+        //NHan vien
+        //Lay danh sach khach hang
+        public DataTable danhsachKH()
+        {
+            con.Open();
+            DataTable table = new DataTable();
+            string sql = "select * from khachhang";
+            SqlDataAdapter adap = new SqlDataAdapter(sql, con);
+            adap.Fill(table);
+            con.Close();
+            return table;
+        }
+        //menu
+        //lay du lieu
+        public DataTable danhsachmenu()
+        {
+            con.Open();
+            DataTable table = new DataTable();
+            string sql = "select * from Menu";
+            SqlDataAdapter adap = new SqlDataAdapter(sql, con);
+            adap.Fill(table);
+            con.Close();
+            return table;
+        }
+
+        //mon an
+        //lay du lieu mon an
+
+        public DataTable danhsachmonan()
+        {
+            con.Open();
+            DataTable table = new DataTable();
+            string sql = "select * from MonAn";
+            SqlDataAdapter adap = new SqlDataAdapter(sql, con);
+            adap.Fill(table);
+            con.Close();
+            return table;
+        }
+        //danh sach loai mon an
+        public DataTable danhsachloai()
+        {
+            con.Open();
+            DataTable table = new DataTable();
+            string sql = "select distinct mota from MonAn";
+            SqlDataAdapter adap = new SqlDataAdapter(sql, con);
+            adap.Fill(table);
+            con.Close();
+            return table;
+        }
+        public DataTable danhsachmonantheoloai(string loaimonan)
+        {
+            con.Open();
+            DataTable table = new DataTable();
+            string sql = "select tenmonan,menu.tenmenu,gia,monan.mota from monan,menu where monan.mamenu=menu.mamenu and monan.mota=N'" + loaimonan+"'";
+            SqlDataAdapter adap = new SqlDataAdapter(sql, con);
+            adap.Fill(table);
+            con.Close();
+            return table;
+        }
+
+        public DataTable danhsachmonantheomenu(string mamenu)
+        {
+            con.Open();
+            DataTable table = new DataTable();
+            string sql = "select tenmonan,menu.tenmenu,gia,monan.mota from monan,menu where monan.mamenu=menu.mamenu and monan.mamenu=N'" + mamenu + "'";
+            SqlDataAdapter adap = new SqlDataAdapter(sql, con);
+            adap.Fill(table);
+            con.Close();
+            return table;
+        }
+        //HD
+        //delete
+        public void deleteHD(string strMatch)
+        {
+            con.Open();
+            string sql = "delete from chitiethoadon where mahoadon=@strMatch;" +
+                "delete from hoadon where mahoadon=@strMatch";
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("strMatch", strMatch);
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+        //Add
+        public void addHD(int lastindex, HoaDon hd)
+        {
+            string mahd = "hdn"+lastindex.ToString();
+            con.Open();
+            string sql = "insert into hoadon values (@mahd,@ngaylap,@manhanvien, @makhachhang);";
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("mahd",mahd);
+            cmd.Parameters.AddWithValue("ngaylap",hd.ngaylap);
+            cmd.Parameters.AddWithValue("manhanvien",hd.manv);
+            cmd.Parameters.AddWithValue("makhachhang",hd.makh);
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+        //update
+        public void updateHD(HoaDon hd, string mamonan, int soluong)
+        {
+            con.Open();
+            string sql1 = "update chitiethoadon set mamonan=@mamonan, soluong=@soluong where mahoadon= @mahd;";
+            string sql2 = "update hoadon set ngaylap=@ngaylap,manhanvien=@manhanvien,makhachhang=@makhachhang where mahoadon= @mahd;";
+
+
+
+            SqlCommand cmd = new SqlCommand(sql1, con);
+            cmd.Parameters.AddWithValue("mahd", hd.mahd);
+
+            cmd.Parameters.AddWithValue("mamonan", mamonan);
+            cmd.Parameters.AddWithValue("soluong", soluong);
+            cmd.ExecuteNonQuery();
+
+            cmd = new SqlCommand(sql2, con);
+            cmd.Parameters.AddWithValue("mahd", hd.mahd);
+            cmd.Parameters.AddWithValue("ngaylap", hd.ngaylap);
+            cmd.Parameters.AddWithValue("manhanvien", hd.manv);
+            cmd.Parameters.AddWithValue("makhachhang", hd.makh);
             cmd.ExecuteNonQuery();
             con.Close();
         }
