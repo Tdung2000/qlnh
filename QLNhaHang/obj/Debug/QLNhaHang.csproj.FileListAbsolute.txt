@@ -1,0 +1,10 @@
+C:\Users\dung\source\repos\ql-nha-hang\QLNhaHang\bin\Debug\QLNhaHang.exe.config
+C:\Users\dung\source\repos\ql-nha-hang\QLNhaHang\bin\Debug\QLNhaHang.exe
+C:\Users\dung\source\repos\ql-nha-hang\QLNhaHang\bin\Debug\QLNhaHang.pdb
+C:\Users\dung\source\repos\ql-nha-hang\QLNhaHang\obj\Debug\QLNhaHang.csprojAssemblyReference.cache
+C:\Users\dung\source\repos\ql-nha-hang\QLNhaHang\obj\Debug\QLNhaHang.Form1.resources
+C:\Users\dung\source\repos\ql-nha-hang\QLNhaHang\obj\Debug\QLNhaHang.Properties.Resources.resources
+C:\Users\dung\source\repos\ql-nha-hang\QLNhaHang\obj\Debug\QLNhaHang.csproj.GenerateResource.cache
+C:\Users\dung\source\repos\ql-nha-hang\QLNhaHang\obj\Debug\QLNhaHang.csproj.CoreCompileInputs.cache
+C:\Users\dung\source\repos\ql-nha-hang\QLNhaHang\obj\Debug\QLNhaHang.exe
+C:\Users\dung\source\repos\ql-nha-hang\QLNhaHang\obj\Debug\QLNhaHang.pdb
